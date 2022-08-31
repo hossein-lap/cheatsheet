@@ -114,16 +114,16 @@ case of condition checks.
 
 The list of data types for values are given below.
 
-| Value Type    | Description |
-|--------------:|:------------|
-|   `nil`       | Used to differentiate the value from having some data or no(nil) data. |
-|   `boolean`   | Includes true and false as values. | Generally used for condition checking. |
-|   `number`    | Represents real(double precision floating point) | numbers. |
-|   `string`    | Represents array of characters. |
-|   `function`  | Represents a method that is written in C or Lua. |
-|   `userdata`  | Represents arbitrary C data. |
-|   `thread`    | Represents independent threads of execution and  |   it is used to implement coroutines. |
-|   `table`     | Represent ordinary arrays, symbol tables, sets, records, graphs, trees, etc., and implements associative arrays. It can hold any value (except nil). |
+| **Value Type**  | **Description** |
+|-----------------|-------------|
+|   `nil`         | Used to differentiate the value from having some data or no(nil) data. |
+|   `boolean`     | Includes true and false as values. | Generally used for condition checking. |
+|   `number`      | Represents real(double precision floating point) | numbers. |
+|   `string`      | Represents array of characters. |
+|   `function`    | Represents a method that is written in C or Lua. |
+|   `userdata`    | Represents arbitrary C data. |
+|   `thread`      | Represents independent threads of execution and  |   it is used to implement coroutines. |
+|   `table`       | Represent ordinary arrays, symbol tables, sets, records, graphs, trees, etc., and implements associative arrays. It can hold any value (except nil). |
 
 ### Numbers <!--{{{-->
 
@@ -173,7 +173,7 @@ print(level)
 The operators for numbers in Lua are the following:
 
 |  **Operation**          | **Syntax** |                     **Description**                       |  **Example**   |
-|-------------------------|------------|-----------------------------------------------------------|----------------|
+|:------------------------|:-----------|:----------------------------------------------------------|:---------------|
 | **Arithmetic negation** |   `-a`     | Changes the sign of a and returns the value               |   `-3.14159`   |
 | **Addition**            |   `a + b`  | Returns the sum of `a` and `b`                            |   `5.2 + 3.6`  |
 | **Subtraction**         |   `a - b`  | Subtracts b from a and returns the result                 |   `5.2 + 3.6`  |
@@ -266,7 +266,7 @@ For example, to print double inverted commas
 The escape sequence and its use is listed below in the table.
 
 |  Escape Sequence   |         Use            |
-|:------------------:|:----------------------:|
+|--------------------|------------------------|
 |        `\a`        |  Bell                  |
 |        `\b`        |  Backspace             |
 |        `\f`        |  Formfeed              |
