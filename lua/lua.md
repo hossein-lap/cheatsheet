@@ -79,7 +79,6 @@ Lua can be obtained on the official Lua website,
 on the [download page](http://www.lua.org/download.html).
 
 <!--}}}-->
-
 # Expressions <!--{{{-->
 
 Expressions are pieces of code that have a value and that can be
@@ -105,7 +104,7 @@ start writing valid code.
 Lua is a dynamically typed language, so the variables don't have types, only the values have types.
 
 But we have types for the values.
-There is a function called ‘type’ that enables us to know the type of the variable.
+There is a function called ‘type' that enables us to know the type of the variable.
 
 ```lua
 print(type("What is my type"))   --> string
@@ -247,7 +246,7 @@ in Lua by being contained in double quotes, single quotes or long brackets
 strings have nothing in common other than the fact they can both be delimited by long
 brackets, preceded by two hyphens in the case of comments).
 
-Strings that aren’t contained
+Strings that aren't contained
 in long brackets will only continue for one line. Because of this, the only way to make a
 string that contains many lines without using long brackets is to use escape sequences. This
 is also the only way to insert single or double quotes in certain cases.
@@ -363,4 +362,264 @@ The former accepts a number as an argument and converts it to a string,
 while the second accepts a string as an argument and converts it to a number
 (a different base than the default decimal one can optionally be given in the second argument).
 
+<!--}}}-->
+# Statements <!--{{{-->
+
+*Statements* are pieces of code that can be executed and that contain an instruction and
+expressions to use with it. Some statements will also contain code inside of themselves that
+may, for example, be run under certain conditions. Dissimilarly to expressions, they can
+be put directly in code and will execute.
+
+Lua has few instructions, but these instructions,
+combined with other instructions and with complex expressions, give a good amount of
+control and flexibility to the user.
+
+## Assignment
+
+Programmers frequently need to be able to store values in the memory to be able to use
+them later. This is done using variables.
+
+*Variables* are references to a value which is stored in the computer's memory.
+They can be used to access a number later after storing it in the memory.
+
+*Assignment* is the instruction that is used to assign a value to a variable. It
+consists of the name of the variable the value should be stored in, an equal sign, and the
+value that should be stored in the variable:
+
+```lua
+variable = 43
+print(variable) --> 43
+```
+
+As demonstrated in the above code, the value of a variable can be accessed by putting the
+variable's name where the value should be accessed.
+
+### Identifiers
+
+[Identifiers](https://en.wikipedia.org/wiki/Identifier%23In_computer_science),
+in Lua, are also called names. They can be any text composed of letters, digits,
+and underscores and **not beginning with a digit**.
+They are used to name variables and table fields.
+
+Here are some **valid** names:
+
+- `name`
+- `hello`
+- `_`
+- `_tomatoes`
+- `me41`
+- `__`
+- `_thisIs_StillaValid23name`
+
+Here are some **invalid** names:
+
+- `2hello` : starts with a digit
+- `th$i` : contains a character that isn't a letter, a digit or an underscore
+- `hel!o` : contains a character that isn't a letter, a digit or an underscore
+- `563text` : starts with a digit
+- `82_something` : starts with a digit
+
+Also, the following keywords are reserved by Lua and can not be used as names:
+
+```lua
+and, end, in, repeat, break, false, local,
+return, do, for, nil, then, else, function,
+not, true, elseif, if, or, until, while
+```
+
+When naming a variable or a table field, you must choose a valid name for it.
+It must therefore start with a **letter** or an **underscore** and only contain
+**letters**, **underscores** and **digits**.
+
+Note that Lua is case sensitive. This means that `Hello` and `hello` are two different names.
+
+### Scope
+
+The [scope of a variable](https://en.wikipedia.org/wiki/Scope%20%28computer%20science%29),
+is the region of the code of the program where that variable is meaningful.
+The examples of variables you have seen before are all examples of global
+variables, variables which can be accessed from anywhere in the program.
+
+Local variables, on the other hand, can only be used from the region of the program
+in which they were defined and in regions of the program that are located inside that
+region of the program. They are created exactly in the same way as global variables,
+but they must be prefixed with the `local` keyword.
+
+The `do` statement will be used to describe them. The `do` statement is a statement that
+has no other purpose than to create a new block of code, and therefore a new scope.
+It ends with the `end` keyword:
+
+```lua
+local variable = 13 --[[ This defines a local variable that can be accessed from
+    anywhere in the script since it was defined in the main region. ]]
+do
+    -- This statement creates a new block and also a new scope.
+    variable = variable + 5 -- This adds 5 to the variable, which now equals 18.
+    local variable = 17 --[[ This creates a variable with the same name as the
+        previous variable, but this one is local to the scope created by
+        the do statement. ]]
+    variable = variable - 1 --[[ This subtracts 1 from the local variable, which
+    now equals 16. ]]
+    print(variable) --> 16
+end
+print(variable) --> 18
+```
+
+When a scope ends, all the variables in it are **gotten rid of**.
+Regions of code can use variables defined in regions of code they are included in,
+but if they "overwrite" them by defining a local variable with the same name,
+that local variable will be used instead of the one defined in the other region of code.
+This is why the first call to the print function prints `16` while the second,
+which is outside the scope created by the do statement, prints `18`.
+
+In practice, only local variables should be used because they can be defined and accessed
+faster than global variables, since they are stored in registers instead of being stored in the
+environment of the current function, like global variables.
+
+Registers are areas that Lua uses to store local variables to access them quickly,
+and can only usually contain up to 200 local variables. The processor,
+an important component of all computers, also has registers,
+but these are not related to Lua's registers.
+Each function (including the main thread, the core of the program, which is also a function)
+also has its own environment, which is a table that uses indices for the variable names
+and stores the values of these variables in the values that correspond to these indices.
+
+### Forms of assignment
+
+Some assignment patterns are sufficiently common for syntactic sugar to have been intro-
+duced to make their use simpler.
+
+**Augmented assignment**
+
+[*Augmented assignment*](https://en.wikipedia.org/wiki/augmented%20assignment),
+which is also called *compound assignment*, is a type of assignment
+that gives a variable a value that is relative to its previous value. It is used when it is
+necessary to change the value of a variable in a way that is relative to its previous value,
+such as when that variable's value must be incremented.
+
+In [C](https://en.wikipedia.org/wiki/C%20%28programming%20language%29),
+[JavaScript](https://en.wikipedia.org/wiki/JavaScript),
+[Ruby](https://en.wikipedia.org/wiki/Ruby%20%28programming%20language%29),
+[Python](https://en.wikipedia.org/wiki/Python%20%28programming%20language%29)
+and some other languages, the code `a += 8` will increment the value of a by 8. Lua does
+not have syntactic sugar for augmented assignment, which means that it is necessary to
+write `a = a + 8`.
+
+**Chained assignment**
+
+[*Chained assignment*](https://en.wikipedia.org/wiki/chained%20assignment)
+is a type of assignment that gives a single value to many variables.
+The code `a = b = c = d = 0`, for example, would set the values of a, b, c and d to 0 in
+C and Python. In Lua, this code will raise an error because Lua does not have syntactic
+sugar for chained assignment, so it is necessary to write the previous example like this:
+
+```lua
+d = 0
+c = d -- or c = 0
+b = c -- or b = 0
+a = b -- or a = 0
+```
+
+**Parallel assignment**
+
+[*Parallel assignment*](https://en.wikipedia.org/wiki/parallel%20assignment),
+which is also called *simultaneous assignment* and *multiple assignment*,
+is a type of assignment that simultaneously assigns different values
+(they can also be the same value) to different variables.
+Unlike chained assignment and augmented assignment, parallel assignment is available in Lua.
+
+```lua
+a, b, c, d = 0, 0, 0, 0
+```
+
+- If you provide more variables than values, some variables will be not be assigned any value.
+- If you provide more values than variables, the extra values will be ignored.
+
+More technically,
+the list of values is adjusted to the length of list of variables before the assignment takes
+place, which means that excess values are removed and that extra nil values are added at
+its end to make it have the same length as the list of variables.
+
+- If a function call is present *at the end of the values list*,
+the values it returns will be added at the end of that list,
+unless the function call is put between parentheses.
+
+Moreover, unlike most programming languages Lua enables reassignment of variables' values
+through [permutation](https://en.wikipedia.org/wiki/permutation). For example:
+
+```lua
+first_variable, second_variable = 54, 87
+first_variable, second_variable = second_variable, first_variable
+print(first_variable, second_variable) --> 87 54
+```
+
+This works because the assignment statement evaluates all the variables and values before
+assigning anything. Assignments are performed as if they were really simultaneous, which
+means you can assign at the same time a value to a variable and to a table field indexed
+with that variable’s value before it is assigned a new value. In other words, the following
+code will set `dictionary[2]`, and not `dictionary[1]`, to `12`.
+
+```lua
+dictionary = {}
+index = 2
+index, dictionary[index] = index - 1, 12
+```
+
+## Conditional statement
+
+Conditional statements are instructions that check whether an expression is true
+and execute a certain piece of code if it is. If the expression is not true,
+they just skip over that piece of code and the program continues.
+In Lua, the only conditional statement uses the `if` instruction.
+`false` and `nil` are both considered as false, while everything else is considered as true.
+
+```lua
+local number = 6
+if number < 10 then
+    print("The number " .. number .. " is smaller than ten.")
+end
+--[[ Other code can be here and it will execute regardless of whether the code in
+the conditional statement executed. ]]
+```
+
+In the code above, the variable number is assigned the number 6 with an assignment statement.
+Then, a conditional statement checks if the value stored in the variable number is smaller than ten,
+which is the case here. If it is, it prints `"The number 6 is smaller than ten."`.
+
+It is also possible to execute a certain piece of code only if
+the expression was not true by using the `else` keyword and to
+chain conditional statements with the `elseif` keyword:
+
+```lua
+local number = 15
+if number < 10 then
+    print("The number is smaller than ten.")
+elseif number < 100 then
+    print("The number is bigger than or equal to ten, but smaller than one hundred.")
+elseif number ~= 1000 and number < 3000 then
+    print("number is bigger or equal to 100, smaller than 3000 is not exactly 1000.")
+else
+    print("number is either 1000 or bigger than 2999.")
+end
+```
+
+Note that the `else` block must always be the last one.
+There cannot be an `elseif` block after the `else` block. The `elseif` blocks
+are only meaningful if none of the blocks that preceded them was executed.
+
+Operators used to compare two values, some of which are used in the code above,
+are called relational operators. If the relation is `true`, they return the
+boolean value true. Otherwise, they return the boolean value `false`.
+
+|  operator |        action          |
+|:----------|:-----------------------|
+|   `==`    |  equal to              |
+|   `~=`    |  not equal to          |
+|   `<=`    |  less than or equal to |
+|   `>=`    |  more than or equal to |
+|   `<`     |  less than             |
+|   `<`     |  more than             |
+
+The code above also demonstrates how the `and` keyword can be used to combine many
+boolean expressions in a conditional expression.
 <!--}}}-->
