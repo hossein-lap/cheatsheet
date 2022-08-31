@@ -25,20 +25,30 @@ io.write("Hello, World!\n")
 <!--}}}-->
 ## Comments <!--{{{-->
 
-Lua has two way to create a comment:
+A comment is a code annotation that is ignored by the programming language.
+
+There are some way of creating comments in Lua:
 
 ```lua
 -- this is a comment
 print ("Hello") -- another comment
+```
+
+These comments are called short (single-line) comments. It is also possible to create long comments,
+which start with a long bracket and can continue on many lines:
+
+```lua
 --[[
     This is a multi-line comment
 ]]
+io.write("Just a simple test\n")
 --[==[
-This is a comment that contains a closing long bracket of level 0 which is here:
+This is a comment that contains
+a closing long bracket of level 0 which is here:
 ]]
-However, the closing double bracket doesn't make the comment end, because the
-comment was opened with an opening long bracket of level 2, and only a closing
-long bracket of level 2 can close it.
+However, the closing double bracket doesn't make the comment end,
+because the comment was opened with an opening long bracket of level 2,
+and only a closing long bracket of level 2 can close it.
 ]==]
 ```
 <!--}}}-->
@@ -70,7 +80,7 @@ on the [download page](http://www.lua.org/download.html).
 
 <!--}}}-->
 
-# Expressions
+# Expressions <!--{{{-->
 
 Expressions are pieces of code that have a value and that can be
 evaluated. They cannot be executed directly (with the exception of function calls), and
@@ -115,7 +125,7 @@ case of condition checks.
 The list of data types for values are given below.
 
 | **Value Type**  | **Description** |
-|:----------------|:------------|
+|:----------------|:----------------|
 |   `nil`         | Used to differentiate the value from having some data or no(nil) data. |
 |   `boolean`     | Includes true and false as values. | Generally used for condition checking. |
 |   `number`      | Represents real(double precision floating point) | numbers. |
@@ -306,12 +316,51 @@ print("snow" .. "ball") --> snowball
 
 The four basic types in Lua (numbers, booleans, nil and strings) have been described in
 the previous sections, but four types are missing:
+functions, tables, userdata and threads.
 
-- functions
-- tables
-- userdata
-- threads
+- *Functions* are pieces of code that can be called, receive values and return values back.
+- *Tables* are data structures that can be used for data manipulation.
+- *Userdata* are used internally by applications Lua is embedded in to allow
+  Lua to communicate with that program through objects controlled by the
+  application.
+- *Threads* are used by coroutines, which allow many functions to run at the same time.
 
 <!--}}}-->
+## Literals
 
+Literals are notations for representing fixed values in source code. All values
+can be repre sented as literals in Lua except **threads** and **userdata**.
 
+String literals (literals that evaluate
+to strings), for example, consist of the text that the string must represent enclosed into
+single quotes, double quotes or long brackets.
+
+Number literals, on the other hand, consist
+the number they represent expressed using decimal notation (ex: `12.43`), scientific notation
+(ex: `3.1416e-2` and `0.31416E1`) or hexadecimal notation (ex: `0xff`).
+
+## Coercion
+
+Coercion is the conversion of a value of one data type to a value of another data type. Lua
+provides automatic coercion between string and number values. Any arithmetic operation
+applied to a string will attempt to convert this string to a number.
+
+ Conversely, whenever a
+string is expected and a number is used instead, the number will be converted to a string.
+
+This applies both to Lua operators and to default functions (functions that are provided
+with the language).
+
+```lua
+print("122" + 1) --> 123
+print("The number is " .. 5 .. ".") --> The number is 5.
+```
+
+Coercion of numbers to strings and strings to numbers can also be done manually with
+the `tostring` and `tonumber` functions.
+
+The former accepts a number as an argument and converts it to a string,
+while the second accepts a string as an argument and converts it to a number
+(a different base than the default decimal one can optionally be given in the second argument).
+
+<!--}}}-->
