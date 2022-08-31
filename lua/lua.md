@@ -115,7 +115,7 @@ case of condition checks.
 The list of data types for values are given below.
 
 | **Value Type**  | **Description** |
-|-----------------|-------------|
+|:----------------|:------------|
 |   `nil`         | Used to differentiate the value from having some data or no(nil) data. |
 |   `boolean`     | Includes true and false as values. | Generally used for condition checking. |
 |   `number`      | Represents real(double precision floating point) | numbers. |
@@ -211,7 +211,7 @@ The following operators are often used with boolean values,
 but can also be used with values of any data type:
 
 |     **Operation**       | **Syntax** | **Description** |
-|-------------------------|------------|-----------------|
+|:------------------------|:-----------|:----------------|
 | **Boolean negation**    | `not a`    | If a is false or nil, returns true. Otherwise, returns false. |
 | **Logical conjunction** | `a and b`  | Returns the first argument if it is false or nil. Otherwise, returns the second argument. |
 | **Logical disjunction** | `a or b`   |  Returns the first argument if it is neither false nor nil. Otherwise, returns the second argument.               |
@@ -266,7 +266,7 @@ For example, to print double inverted commas
 The escape sequence and its use is listed below in the table.
 
 |  Escape Sequence   |         Use            |
-|--------------------|------------------------|
+|:-------------------|:-----------------------|
 |        `\a`        |  Bell                  |
 |        `\b`        |  Backspace             |
 |        `\f`        |  Formfeed              |
