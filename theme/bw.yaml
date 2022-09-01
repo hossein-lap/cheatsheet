@@ -1,0 +1,14 @@
+metadata:
+    keywords:
+        - 'bw theme'
+
+pdf-engine: xelatex
+highlight-style: ../theme/bw.theme
+
+variables:
+    geometry:  margin=1in
+    #fontsize:  12pt
+    numbersections: true
+    header-includes:
+        - \usepackage{../theme/main}
+        - \usepackage{../theme/bw}

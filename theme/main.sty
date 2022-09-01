@@ -1,0 +1,39 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{main}
+\RequirePackage{fontspec,fancyvrb,titlesec,setspace,framed}
+
+\onehalfspacing
+
+\titleformat{\section} {\sffamily \LARGE \bfseries}{\thesection}{.03\linewidth}{}%[{\titlerule[2pt]}]
+\titlespacing{\section}{0mm}{5mm}{5mm}
+
+\titleformat{\subsection} {\sffamily \Large \bfseries}{\thesubsection}{.03\linewidth}{}
+\titlespacing{\subsection}{0mm}{5mm}{5mm}
+
+\titleformat{\subsubsection} {\sffamily \large \bfseries}{\thesubsubsection}{.03\linewidth}{}
+\titlespacing{\subsubsection}{0pt}{5mm}{5mm}
+
+\let\oldsection\section
+\renewcommand\section{\newpage\oldsection}
+
+\setmainfont{Source Serif Pro}
+\setsansfont{Libertinus Sans}
+\setmonofont{Fira Mono}
+
+%\setmonofont{Ubuntu Mono}
+
+%\setmonofont{DejaVu Sans Mono}
+%\setmonofont{Inconsolata Nerd Font}
+%\setmonofont{Source Code Variable}
+%\setmonofont{Sometype Mono Medium}
+%\setmonofont{Fira Code}
+%\setmonofont{Courier Prime Code}
+
+%\setmainfont{Libertinus Serif}
+
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},numbers=left}
+	%fontfamily=tt,
+	%baselinestretch=1.2,
+	%gobble=0,
+	%framerule=0mm,
+	%framesep=9mm,
