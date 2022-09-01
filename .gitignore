@@ -1,2 +1,10 @@
-*old*.md
-*bw*.pdf
+* \
+!*.md
+!Makefile
+!*.jpg
+!*.sh
+!*.yaml
+!*.theme
+!*.sty
+!*.pdf
+*-bw*.pdf
