@@ -10,7 +10,7 @@ BANDW = $(TITLE) --defaults $(THEME)/bw.yaml
 
 all:
 	$(CC) $(COLOR) $(NAME).md -o $(NAME).pdf
-	#$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw-ed.pdf
+	$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
 
 clean:
 	make

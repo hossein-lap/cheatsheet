@@ -374,7 +374,7 @@ Lua has few instructions, but these instructions,
 combined with other instructions and with complex expressions, give a good amount of
 control and flexibility to the user.
 
-## Assignment
+## Assignment<!--{{{-->
 
 Programmers frequently need to be able to store values in the memory to be able to use
 them later. This is done using variables.
@@ -394,7 +394,7 @@ print(variable) --> 43
 As demonstrated in the above code, the value of a variable can be accessed by putting the
 variable's name where the value should be accessed.
 
-### Identifiers
+### Identifiers<!--{{{-->
 
 [Identifiers](https://en.wikipedia.org/wiki/Identifier%23In_computer_science),
 in Lua, are also called names. They can be any text composed of letters, digits,
@@ -432,8 +432,8 @@ It must therefore start with a **letter** or an **underscore** and only contain
 **letters**, **underscores** and **digits**.
 
 Note that Lua is case sensitive. This means that `Hello` and `hello` are two different names.
-
-### Scope
+<!--}}}-->
+### Scope<!--{{{-->
 
 The [scope of a variable](https://en.wikipedia.org/wiki/Scope%20%28computer%20science%29),
 is the region of the code of the program where that variable is meaningful.
@@ -483,11 +483,11 @@ but these are not related to Lua's registers.
 Each function (including the main thread, the core of the program, which is also a function)
 also has its own environment, which is a table that uses indices for the variable names
 and stores the values of these variables in the values that correspond to these indices.
+<!--}}}-->
+### Forms of assignment<!--{{{-->
 
-### Forms of assignment
-
-Some assignment patterns are sufficiently common for syntactic sugar to have been intro-
-duced to make their use simpler.
+Some assignment patterns are sufficiently common for syntactic sugar to have been introduced
+to make their use simpler.
 
 **Augmented assignment**
 
@@ -564,8 +564,9 @@ dictionary = {}
 index = 2
 index, dictionary[index] = index - 1, 12
 ```
-
-## Conditional statement
+<!--}}}-->
+<!--}}}-->
+## Conditional statement<!--{{{-->
 
 Conditional statements are instructions that check whether an expression is true
 and execute a certain piece of code if it is. If the expression is not true,
@@ -578,8 +579,8 @@ local number = 6
 if number < 10 then
     print("The number " .. number .. " is smaller than ten.")
 end
---[[ Other code can be here and it will execute regardless of whether the code in
-the conditional statement executed. ]]
+--[[ Other code can be here and it will execute regardless of whether the code
+in the conditional statement executed. ]]
 ```
 
 In the code above, the variable number is assigned the number 6 with an assignment statement.
@@ -618,8 +619,317 @@ boolean value true. Otherwise, they return the boolean value `false`.
 |   `<=`    |  less than or equal to |
 |   `>=`    |  more than or equal to |
 |   `<`     |  less than             |
-|   `<`     |  more than             |
+|   `>`     |  more than             |
 
 The code above also demonstrates how the `and` keyword can be used to combine many
 boolean expressions in a conditional expression.
+<!--}}}-->
+## Loops<!--{{{-->
+
+Frequently, programmers will need to run a certain piece of code or
+a similar piece of code many times, or to run a certain piece of code a number
+of times that may depend on user input. A loop is a sequence of statements
+which is specified once but which may be carried out several times in succession.
+
+### Condition-controlled loops<!--{{{-->
+
+Condition-controlled loops are loops that are controlled by a condition.
+They are very similar to conditional statements, but instead of executing the code
+if the condition is true and skipping it otherwise, they will keep running it
+while the condition is true, or until the condition is false.
+
+Lua has two statements for condition-controlled loops: the `while` loop and
+the `repeat` loop. Such loops will run code, then check if the condition is true.
+If it is true, then they run the code again, and they repeat until the condition is false.
+When the condition is false, they stop repeating the code and the program flow continues.
+Each execution of the code is called an iteration.
+
+The difference between `while` and `repeat` loops is that `repeat` loops
+will check the condition at the end of the loop `while` while loops
+will check it at the start of the loop.
+This only makes a difference for the first iteration:
+`repeat` loops will always execute the code at least once, even if the condition is false at the
+first time the code is executed. This is not the case for `while` loops, which will only execute
+the code the first time if the condition is actually true.
+
+```lua
+local number = 0
+while number < 10 do
+    print(number)
+    number = number + 1 -- Increase the value of the number by one.
+end
+```
+
+The code above will print `0`, then `1`, then `2`, then `3`, and so on, until `9`.
+After the tenth iteration, *number* will no longer be smaller than ten,
+and therefore the loop will stop executing. Sometimes, loops will be meant to run forever,
+in which case they are called infinite loops.
+
+Renderers, software processes that draw things on the screen, for example, will often
+loop constantly to redraw the screen to update the image that is shown to the user. This
+is frequently the case in video games, where the game view must be updated constantly to
+make sure what the user sees is kept up-to-date.
+
+However, cases where loops need to run
+forever are rare and such loops will often be the result of errors. Infinite loops can take a
+lot of computer resources, so it is important to make sure that loops will always end even
+if unexpected input is received from the user.
+
+```lua
+local number = 0
+repeat
+    print(number)
+    number = number + 1
+until number >= 10
+```
+
+The code above will do exactly the same thing as the code that used a
+`while` loop above. The main differences is that, unlike `while` loops,
+where the condition is put between the `while` keyword and the `do` keyword,
+the condition is put at the end of the loop, after the `until` keyword.
+The `repeat` loop is the only statement in Lua that creates a block and
+that is not closed by the `end` keyword.
+<!--}}}-->
+### Count-controlled loops<!--{{{-->
+
+Incrementing a variable is increasing its value by steps, especially by steps of one.
+The two loops in the previous section incremented the variable *number*
+and used it to run the code a certain number of times.
+
+This kind of loop is so common that most languages,
+including Lua, have a built-in control structure for it.
+This control structure is called a count-controlled loop,
+and, in Lua and most languages, is defined by the `for` statement.
+The variable used in such loops is called the loop counter.
+
+```lua
+for number = 0, 9, 1 do
+    print(number)
+end
+```
+
+The code above does exactly the same thing as the two loops presented in the previous
+section, but the number variable can only be accessed from inside the loop because it is
+local to it.
+The first number following the variable name and the equality symbol is the
+initialization. It is the value the loop counter is initialized to. The second number is the
+number the loop stops at. It will increment the variable and repeat the code until the
+variable reaches this number.
+Finally, the third number is the increment: it is the value the loop counter is
+increased of at each iteration. If the increment is not given,
+it will be assumed to be 1 by Lua.
+The code below would therefore print `1`, `1.1`, `1.2`, `1.3`, `1.4` and `1.5`.
+
+```lua
+for n = 1, 2, 0.1 do
+    print(n)
+    if n >= 1.5 then
+        break -- Terminate the loop instantly and do not repeat.
+    end
+end
+```
+
+The reason the code above does not go up to 2 and only up to 1.5 is because of the
+`break` statement, which instantly terminates the loop.
+
+This statement can be used with any loop, including `while` loops and `repeat` loops.
+
+Note that the `>=` operator was used here, although the `==` operator
+would theoretically have done the job as well.
+This is because of decimal precision errors.
+Lua represents numbers with the double-precision floating-point
+[format](https://en.wikipedia.org/wiki/Double-precision%20floating-point%20format),
+which stores numbers in the memory as an approximation of their actual value.
+In some cases, the approximation will match the number exactly, but in some cases,
+it will only be an approximation. Usually, these approximations will be close enough
+to the number for it to not make a difference, but this system can cause errors
+when using the equality operator. This is why it is generally safer when working with
+decimal numbers to avoid using the equality operator. In this specific case,
+the code would not have worked if the equality operator had been
+[used](http://codepad.org/kYHPSvqx)
+(it would have continued going up until 1.9), but it works with the `>=` operator.
+<!--}}}-->
+
+<!--}}}-->
+## Blocks <!--{{{-->
+
+A block is a list of statements that are executed sequentially.
+These statements can include empty statements, that do not contain any instruction.
+Empty statements can be used to start a block with
+a semicolon or write two semicolons in sequence.
+
+Function calls and assignments may start with a parenthesis,
+which can lead to an ambiguity. This fragment is an example of this:
+
+```lua
+a = b + c
+(print or io.write)('done')
+```
+
+This code could be interpreted in two ways:
+
+```lua
+a = b + c(print or io.write)('done')
+a = b + c; (print or io.write)('done')
+```
+
+The current parser always sees such constructions in the first way,
+interpreting the opening parenthesis as the start of the arguments to a call.
+To avoid this ambiguity, it is a good practice to always precede with
+a semicolon statements that start with a parenthesis:
+
+```lua
+;(print or io.write)('done')
+```
+
+### Chunks <!--{{{-->
+
+The unit of compilation of Lua is called a *chunk*. A chunk can be stored in a file or in a
+string inside the host program. To execute a chunk, Lua first precompiles the chunk into
+instructions for a virtual machine, and then it executes the compiled code with an interpreter
+for the virtual machine. Chunks can also be precompiled into binary form (bytecode) using
+`luac`, the compilation program that comes with Lua, or the `string.dump` function, which
+returns a string containing a binary representation of the function it is given.
+
+The `load` function will return the compiled chunk as a function if there is no syntactic error.
+Otherwise, it will return nil and the error message.
+
+The second parameter of the `load` function is used to set the source of the chunk. All
+chunks keep a copy of their source within them, in order to be able to give appropriate
+error messages and debugging information. By default, that copy of their source will be the
+code given to `load` (if code was given; if a function was given instead, it will be "`=(load)`").
+This parameter can be used to change it. This is mostly useful when compiling code to
+prevent people from getting the original source back. It is then necessary to remove the
+source included with the binary representation because otherwise the original code can be
+obtained there.
+
+The third parameter of the `load` function can be used to set the environment of the generated
+function and the fourth parameter controls whether the chunk can be in text or binary.
+It may be the string ”b” (only binary chunks), ”t” (only text chunks), or ”bt” (both binary
+and text). The default is ”bt”.
+
+There is also a `loadfile` function that works exactly like `load`, but instead gets the code
+from a file. The first parameter is the name of the file from which to get the code. There
+is no parameter to modify the source stored in the binary representation, and the third
+and fourth parameters of the `load` function correspond to the second and third parameters
+of this function. The `loadfile` function can also be used to load code from the standard
+input, which will be done if no file name is given.
+
+The `dofile` function is similar to the `loadfile` function, but instead of loading the code
+in a file as a function, it immediately executes the code contained in a source code file as
+a Lua chunk. Its only parameter is used to specify the name of the file it should execute
+the contents of; if no argument is given, it will execute the contents of the standard input.
+If the chunk returns values, they will be provided by the call to the `dofile` function.
+Be cause `dofile` does not run in protected mode, all errors in chunks executed through it will
+propagate.
+
+
+<!--}}}-->
+
+<!--}}}-->
+
+<!--}}}-->
+# Functions <!--{{{-->
+
+![An illustration of a stack and of the operations that can be performed on it](figs/stack-fig.jpg)
+
+A *stack* is a list of items where items can be added (*pushed*) or removed (*popped*) that
+behaves on the last-in-first-out principle, which means that the last item that was added
+will be the first to be removed. This is why such lists are called stacks: on a stack, you
+cannot remove an item without first removing the items that are on top of it. All operations
+therefore happen at the top of the stack. An item is above another if it was added after
+that item and is below it if it was added before that item.
+
+A **function** (also called a subroutine, a procedure, a routine or a subprogram)
+is a sequence of instructions that perform a specific task and that can be called
+from elsewhere in the program whenever that sequence of instructions should be executed.
+Functions can also receive values as input and return an output after
+potentially manipulating the input or executing a task based on the input.
+Functions can be defined from anywhere in a program, including inside other functions,
+and they can also be *called* from any part of the program that has access to them:
+functions, just like numbers and strings, are values and can therefore be stored in
+variables and have all the properties that are common to variables.
+These characteristics make functions very useful.
+
+Because functions can be called from other functions, the Lua interpreter (the program that
+reads and executes Lua code) needs to be able to know what function called the function it
+is currently executing so that, when the function terminates (when there is no more code
+to execute), it can return to execution of the right function. This is done with a stack
+called the call stack: each item in the call stack is a function that called the function that is
+directly above it in the stack, until the last item in the stack, which is the function currently
+being executed. When a function terminates, the interpreter uses the stack’s pop operation
+to remove the last function in the list, and it then returns to the previous function.
+
+There are two types of functions: built-in functions and user-defined functions.
+*Built-in functions* are functions provided with Lua and include functions
+such as the `print` function, which you already know. Some can be accessed directly,
+like the `print` function, but others need to be accessed through a library,
+like the `math.random` function, which returns a random number.
+*User-defined functions* are functions defined by the user.
+User-defined functions are defined using a function constructor:
+
+```lua
+local func = function(first_parameter, second_parameter, third_parameter)
+    -- function body (a function's body is the code it contains)
+end
+```
+
+The code above creates a function with three parameters and stores it in the variable *func*.
+The following code does exactly the same as the above code, but uses syntactic sugar for
+defining the function:
+
+```lua
+local function func(first_parameter, second_parameter, third_parameter)
+    -- function body
+end
+```
+
+It should be noted that, when using the second form, it is possible to refer to the function
+from inside itself, which is not possible when using the first form. This is because
+`local function foo() end` translates to `local foo; foo = function() end`
+rather than `local foo = function() end`.
+This means that foo is part of the function’s environment in the second form and not
+in the first, which explains why the second form makes it possible to refer to the function itself.
+
+In both cases, it is possible to omit the `local` keyword to
+store the function in a global variable.
+Parameters work like variables and allow functions to receive values.
+When a function is called, arguments may be given to it.
+The function will then receive them as parameters.
+
+Parameters are like local variables defined at the beginning of a function,
+and will be assigned in order depending on the order of the arguments as they are given in the
+function call; if an argument is missing, the parameter will have the value `nil`.
+The function in the following example adds two numbers and prints the result.
+It would therefore print `5` when the code runs.
+
+```lua
+local function add(first_number, second_number)
+    print(first_number + second_number)
+end
+
+add(2, 3)
+```
+
+Function calls are most of the time under the form name(arguments).
+However, if there is only one argument and it is either a table or a string,
+and it isn’t in a variable
+(meaning it is constructed directly in the function call, expressed as a literal),
+the parentheses can be omitted:
+
+```lua
+print "Hello, world!"
+print {4, 5}
+```
+
+The second line of code in the previous example would print the memory address of the table.
+When converting values to strings, which the `print` function does automatically,
+complex types (functions, tables, userdata and threads) are changed to their memory addresses.
+Booleans, numbers and the nil value, however, will be converted to corresponding strings.
+
+The terms *parameter* and *argument* are often used interchangeably in practice.
+In this book, and in their proper meanings, the terms *parameter* and *argument* mean,
+respectively, a name to which the value of the corresponding argument will be
+assigned and a value that is passed to a function to be assigned to a parameter.
+
 <!--}}}-->
