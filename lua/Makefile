@@ -10,7 +10,8 @@ BANDW = $(TITLE) --defaults $(THEME)/bw.yaml
 
 all:
 	$(CC) $(COLOR) $(NAME).md -o $(NAME).pdf
-	$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
+	#$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
+	#bash reformat.sh
 
 clean:
 	make
