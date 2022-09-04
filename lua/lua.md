@@ -30,7 +30,7 @@ give to their employees a full course on a complicated programming language. Som
 simple languages like Bash or Batch here would not be powerful enough to perform these
 tasks, but Lua is both powerful and simple. Another of the important advantages of Lua
 is its capability to be embedded, which was one of the most important characteristics of it
-throughout all of its development. Games like or World of Warcraft or ROBLOX need to
+throughout all of its development. Games like World of Warcraft or ROBLOX need to
 be able to embed Lua in their application so users of the application can use it.
 
 ## Hello, World! <!--{{{-->
@@ -100,7 +100,7 @@ Lua is a dynamically typed language intended for use as an extension language or
 
 Statements and expressions can be respectively compared to sentences and
 words. Expressions are pieces of code that have a value and that can be evaluated, while
-statements are pieces of code that can be executed and that contain an instruction and one
+statements are pieces of code that can be executed and contain an instruction with one
 or many expressions to use that instruction with.
 
 For example, `3 + 5` is an expression and
@@ -370,7 +370,7 @@ functions, tables, userdata and threads.
 ## Literals
 
 Literals are notations for representing fixed values in source code. All values
-can be repre sented as literals in Lua except **threads** and **userdata**.
+can be represented as literals in Lua except **threads** and **userdata**.
 
 String literals (literals that evaluate
 to strings), for example, consist of the text that the string must represent enclosed into
