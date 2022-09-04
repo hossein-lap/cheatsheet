@@ -209,7 +209,7 @@ $_
 ## Exporting Variables
 
 Remember how in the previous section we talked about
-[scripts being run in their own process](#How-do-they-work-)?
+[scripts being run in their own process](#how-do-they-work)?
 This introduces a phenomenon known as scope which affects
 variables amongst other things. The idea is that variables are limited to the
 process they were created in. Normaly this isn't an issue but sometimes, for
