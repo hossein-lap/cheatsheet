@@ -1,4 +1,4 @@
-# Bash Cheatsheet
+# Bash Cheatsheet <!--{{{-->
 
 A Bash script is a plain text file which contains a series of commands.
 
@@ -39,7 +39,8 @@ also allocate a bit of space in RAM for the process to store variables (to hold
 temporary working data) and a few flags to allow the operating system (OS) to
 manage and track the process during it's execution.
 
-# Variables
+<!--}}}-->
+# Variables <!--{{{-->
 
 Variables are one of those things that are actually quite easy to use but are
 also quite easy to get yourself into trouble with if you don't properly
@@ -76,7 +77,7 @@ script it first checks to see if any variable names are present. For every
 variable it has identified, it replaces the variable name with its value. Then
 it runs that line of code and begins the process again on the next line.
 
-## Command-line Argumets
+## Command line Arguments
 
 When we run a program on the command line you would be familiar with supplying
 arguments after it to control its behaviour. For instance we could run the
@@ -124,17 +125,14 @@ Here is a simple example to illustrate their usage:
 # A simple variable example
 myvariable=Hello
 anothervar=Fred
-
 echo $myvariable $anothervar
 echo
-
 sampledir=/etc
 ls $sampledir
 ```
 
     $ ./simplevariables.sh
     Hello Fred
-
     a2ps.cfg aliases alsa.d ...
     $_
 
@@ -216,3 +214,77 @@ process they were created in. Normaly this isn't an issue but sometimes, for
 instance, a script may run another script as one of its commands. If we want
 the variable to be available to the second script then we need to export the
 variable.
+
+- `script1.sh`
+
+    ```sh
+    #!/bin/bash
+    # demonstrate variable scope 1.
+    var1=blah
+    var2=foo
+    # Let's verify their current value
+    echo $0 :: var1 : $var1, var2 : $var2
+    export var1
+    ./script2.sh
+    # Let's see what they are now
+    echo $0 :: var1 : $var1, var2 : $var2
+    ```
+
+- `script2.sh`
+
+    ```sh
+    #!/bin/bash
+    # demonstrate variable scope 2
+    # Let's verify their current value
+    echo $0 :: var1 : $var1, var2 : $var2
+    # Let's change their values
+    var1=flop
+    var2=bleh
+    ```
+
+Now lets run them.
+
+```
+$ ./script1.sh
+script1.sh :: var1 : blah, var2 : foo
+script2.sh :: var1 : blah, var2 :
+script1.sh :: var1 : blah, var2 : foo
+$_
+```
+
+The output above may seem unexpected. What actually happens when we export a
+variable is that we are telling Bash that every time a new process is created
+(to run another script or such) then make a copy of the variable and hand it
+over to the new process. So although the variables will have the same name they
+exist in separate processes and so are unrelated to each other.
+
+Exporting variables is a one way process. The original process may pass
+variables over to the new process but anything that process does with the copy
+of the variables has no impact on the original variables.
+
+Exporting variables is something you probably won't need to worry about for
+most Bash scripts you'll create. Sometimes you may wish to break a particular
+task down into several separate scripts however to make it easier to manage or
+to allow for reusability (which is always good).
+
+<!--}}}-->
+# User Input <!--{{{-->
+
+We looked at one form of user input
+[Command line Argumets](#command-line-arguments)
+in the previous section. Now we would like to introduce other ways the user may
+provide input to the Bash script.
+
+## Ask the User for Input 
+
+If we would like to ask the user for input then we use a command called `read`.
+This command takes the input and will save it into a variable.
+
+```sh
+#!/bin/bash
+
+read Variable_Name
+echo $Variable_Name
+```
+
+<!--}}}-->
