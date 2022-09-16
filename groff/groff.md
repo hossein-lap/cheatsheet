@@ -14,6 +14,30 @@ documents while consuming only minimal system resources.
 Groff is released under the
 [GNU General Public License](http://www.gnu.org/copyleft/gpl.html).
 
+## Compile <!--{{{-->
+
+We need to compile our document into `ps` (PostScript) or `pdf` (Portable Document Format) formats:
+
+1. ps format:
+
+    ```sh
+    $ groff -ms file.ms > output.ps
+    $_
+    ```
+1. pdf format:
+
+    ```sh
+    $ groff -ms -Tpdf file.ms > output.pdf
+    $_
+    ```
+    - We also can compile with `-mspdf` flag to have some extra features like TOC:
+
+        ```sh
+        $ groff -mspdf file.ms > output.pdf
+        $_
+        ```
+
+<!--}}}-->
 ## Comments <!--{{{-->
 
 `groff` has three way to create a comment:
@@ -105,15 +129,31 @@ int main(int argc, char *argv[])
 <!--}}}-->
 ## Title <!--{{{-->
 
-Every document at least needs a *title* and *author*:
+Every document (in general, not only in groff) at least needs a *title* and *author*:
 
 ```roff
 .TL
 The Title
-
 .AU
 The Author
 ```
+
+We can add institution:
+
+```roff
+.AI
+Home
+```
+
+We can also have abstraction:
+
+```roff
+.AB no
+This is an abstraction
+.AE
+```
+
+![Title, Author, Institution and Abstraction](figs/title-abstraction.png)
 
 <!--}}}-->
 ## Page formatting <!--{{{-->
