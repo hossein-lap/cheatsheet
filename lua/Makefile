@@ -2,15 +2,15 @@ NAME = lua
 
 CC = pandoc
 THEME = ../theme
-
-TITLE = --toc --toc-depth=2 -V title:"\bfseries Lua" -V subtitle:"Cheatsheet" -V author:"P J"
+TOC = # --toc --toc-depth=2
+TITLE = $(TOC) -V title:"\bfseries Lua" -V subtitle:"Cheatsheet" -V author:"P J"
 
 COLOR = $(TITLE) --defaults $(THEME)/dracula.yaml
 BANDW = $(TITLE) --defaults $(THEME)/bw.yaml
 
 all:
 	$(CC) $(COLOR) $(NAME).md -o $(NAME).pdf
-	#$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
+	$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
 	#bash reformat.sh
 
 clean:
