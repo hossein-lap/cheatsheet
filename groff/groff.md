@@ -5,7 +5,8 @@
 formatting commands and produces formatted output. Output may be PostScript,
 PDF, html, or ASCII/UTF8 for display at the terminal. Formatting commands may
 be either low-level typesetting requests ("primitives") or macros from a
-supplied set. Users may also write their own macros. All three may be combined.
+supplied set. Users may also write their own macros.
+All three may be combined.
 
 Present on most Unix systems owing to its long association with Unix manuals
 (manpages), groff is capable of producing typographically sophisticated
@@ -16,26 +17,18 @@ Groff is released under the
 
 ## Compile <!--{{{-->
 
-We need to compile our document into `ps` (PostScript) or `pdf` (Portable Document Format) formats:
+We need to compile our document into `ps` (PostScript)
+or `pdf` (Portable Document Format) formats which will be done by
+redirection:
 
-1. ps format:
 
-    ```sh
-    $ groff -ms file.ms > output.ps
-    $_
-    ```
-1. pdf format:
+Table: Command-line
 
-    ```sh
-    $ groff -ms -Tpdf file.ms > output.pdf
-    $_
-    ```
-    - We also can compile with `-mspdf` flag to have some extra features like TOC:
-
-        ```sh
-        $ groff -mspdf file.ms > output.pdf
-        $_
-        ```
+| **Decription** | **Command** |
+|----------------|-------------|
+| ps format (Default) | `$ groff -ms file.ms > output.ps` |
+| pdf format | `$ groff -ms -Tpdf file.ms > output.pdf` |
+| We also can compile with `-mspdf` flag to have some extra features like *Table of Contents*: | `$ groff -mspdf -Tpdf file.ms > output.pdf` |
 
 <!--}}}-->
 ## Comments <!--{{{-->
@@ -52,6 +45,180 @@ everything in this block will be ignored.
 ```
 
 <!--}}}-->
+## Title <!--{{{-->
+
+Every document (in general, not only in groff) at least needs a *title* and *author*:
+
+```roff
+.TL
+The Title
+.AU
+The Author
+```
+
+We can add institution:
+
+```roff
+.AI
+Home
+```
+
+We can also have abstraction:
+
+```roff
+.AB
+This is an abstraction
+.AE
+```
+
+![*Title*, *Author*, *Institution* and *Abstraction*](figs/title-author-inst-abstraction.png)
+
+To have an abstraction without the *abstraction* keyword,
+simple give `.AB` the `no` argument:
+
+```roff
+.AB no
+This is an abstraction
+.AE
+```
+
+<!--}}}-->
+## Page styling <!--{{{-->
+
+We can have page *footer* and *header*:
+
+```roff
+.ds RH Top right
+.ds CH Top middle \" reserved for page number
+.ds LH Top left
+.ds RF Buttom right
+.ds CF Buttom middle \" reserved for current date (.DA)
+.ds LF Buttom left
+```
+
+![Page Headers](figs/page-headers.png)
+
+![Page Footers](figs/page-footers.png)
+
+Change font size:
+
+```roff
+.nr PS 18
+```
+<!--}}}-->
+## Headings <!--{{{-->
+
+A groff document can have two types of headings:
+
+- Ordered or Numbered
+- Unordered
+
+### Numbered/Ordered headings <!--{{{-->
+
+```roff
+.NH 1
+Heading level 1
+.NH 2
+Heading level 2
+.NH 3
+Heading level 3
+.NH 4
+Heading level 4
+.NH 5
+Heading level 5
+.NH 6
+Heading level 6
+```
+
+![Numbered Headings](figs/formatting-numbered-headings.png)
+
+The `.NH` macro without any arguments (levels) is level 1 by default.
+
+<!--}}}-->
+### Unordered headings <!--{{{-->
+
+```roff
+.SH
+A Simple heading
+.SH 2
+A Simple heading
+```
+
+![Unordered Headings](figs/formatting-unordered-headings.png)
+
+<!--}}}-->
+<!--}}}-->
+## Paragraphs <!--{{{-->
+
+We have some options here:
+
+### No-line indented
+
+```roff
+.LP
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+```
+
+![No-Line Indented Paragraph](figs/formatting-paragraph-no-indented.png)
+
+### First-line indented
+
+```roff
+.PP
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+```
+
+![First-line Indented Paragraph](figs/formatting-paragraph-first-indented.png)
+
+### All-but-first-line indented
+
+```roff
+.XP
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+```
+
+![All-But-First-Line Indented Paragraph](figs/formatting-paragraph-all-but-first-indented.png)
+
+### Quote <!--{{{-->
+
+#### Paragraph
+
+```roff
+.QP
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.LP
+This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
+```
+
+![Quote Paragraph](figs/formatting-paragraph-quote.png)
+
+#### Specific range
+
+```roff
+.SH
+Quotes
+.QP
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.LP
+This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
+.RS
+This is a quote from X. This is a quote from X. This is a quote from X.
+.RE
+This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
+```
+
+![Quote Range](figs/formatting-quotes-range.png)
+
+<!--}}}-->
+<!--}}}-->
+## Text formatting <!--{{{-->
+<!--}}}-->
+
+\vfill\newpage
+
 ## Macros <!--{{{-->
 
 We can define a macro to stop repeating ourselves and save time,
@@ -73,21 +240,39 @@ And now we can use them just like other macros:
 
 ### Some useful macros <!--{{{-->
 
-Custom bullet list:
+#### bullet list:
 
 ```roff
-.de list
+.de bl
 .IP
 \(bu
 ..
 \" usage
-.list
+.bl
 Test item one
+.bl
+Test item two
 ```
 
-![list Custom Macro](figs/list-custom-macro.png)
+![*bl* Bullet-list Macro](figs/macro-bullet-list.png)
 
-Boxed code block:
+#### Boxed list
+
+```roff
+.de bb
+.IP
+\[sq]
+..
+\" usage
+.bb
+TODO item one
+.bb
+TODO item two
+```
+
+![*bl* Boxed-list Macro](figs/macro-boxed-list.png)
+
+#### Boxed code block:
 
 ```roff
 .nr ln 1
@@ -123,55 +308,7 @@ int main(int argc, char *argv[])
 ./cb
 ```
 
-![cb Custom Macro](figs/cb-custom-macro.png)
+![*cb* Boxed-codeblock Macro](figs/macro-boxed-codeblock.png)
 
 <!--}}}-->
-<!--}}}-->
-## Title <!--{{{-->
-
-Every document (in general, not only in groff) at least needs a *title* and *author*:
-
-```roff
-.TL
-The Title
-.AU
-The Author
-```
-
-We can add institution:
-
-```roff
-.AI
-Home
-```
-
-We can also have abstraction:
-
-```roff
-.AB no
-This is an abstraction
-.AE
-```
-
-![Title, Author, Institution and Abstraction](figs/title-abstraction.png)
-
-<!--}}}-->
-## Page formatting <!--{{{-->
-
-We can have page *footer* and *header*:
-
-```roff
-.ds RH Top right
-.ds CH Top middle \" reserved for page number
-.ds LH Top left
-.ds RF Buttom right
-.ds CF Buttom middle \" reserved for current date (.DA)
-.ds LF Buttom left
-```
-
-Change font size:
-
-```roff
-.nr PS 18
-```
 <!--}}}-->
