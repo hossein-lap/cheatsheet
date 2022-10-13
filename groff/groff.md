@@ -21,9 +21,6 @@ We need to compile our document into `ps` (PostScript)
 or `pdf` (Portable Document Format) formats which will be done by
 redirection:
 
-
-Table: Command-line
-
 | **Decription** | **Command** |
 |----------------|-------------|
 | ps format (Default) | `$ groff -ms file.ms > output.ps` |
@@ -45,6 +42,10 @@ everything in this block will be ignored.
 ```
 
 <!--}}}-->
+## Keep that in mind
+
+The macros should be called at the beginning of a line.
+
 ## Title <!--{{{-->
 
 Every document (in general, not only in groff) at least needs a *title* and *author*:
@@ -108,12 +109,10 @@ Change font size:
 <!--}}}-->
 ## Headings <!--{{{-->
 
-A groff document can have two types of headings:
-
-- Ordered or Numbered
+- Ordered / Numbered
 - Unordered
 
-### Numbered/Ordered headings <!--{{{-->
+### Numbered / Ordered headings <!--{{{-->
 
 ```roff
 .NH 1
@@ -150,8 +149,6 @@ A Simple heading
 <!--}}}-->
 ## Paragraphs <!--{{{-->
 
-We have some options here:
-
 ### No-line indented
 
 ```roff
@@ -176,139 +173,181 @@ This is a simple paragraph.This is a simple paragraph.This is a simple paragraph
 
 ```roff
 .XP
-This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
-This is a simple paragraph.This is a simple paragraph.This is a simple paragraph.
+This is a simple paragraph. This is a simple paragraph.
+This is a simple paragraph. This is a simple paragraph.
 ```
 
 ![All-But-First-Line Indented Paragraph](figs/formatting-paragraph-all-but-first-indented.png)
 
-### Quote <!--{{{-->
-
-#### Paragraph
+### All-indented paragraph
 
 ```roff
-.QP
-This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.NH
+Indented Paragraph
+.IP
+This is a indented paragraph. This is a indented paragraph.
+This is a indented paragraph. This is a indented paragraph.
 .LP
-This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
+This is a regular paragraph. This is a regular paragraph.
+This is a regular paragraph. This is a regular paragraph.
 ```
 
-![Quote Paragraph](figs/formatting-paragraph-quote.png)
+![Range-Specific Indented Paragraph](figs/formatting-paragraph-range-indented.png)
 
-#### Specific range
+### Range All-indented paragraph
 
 ```roff
-.SH
-Quotes
-.QP
-This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.NH
+Range-indented Paragraph
 .LP
-This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
+This is a regular paragraph. This is a regular paragraph.
+This is a regular paragraph. This is a regular paragraph.
 .RS
 This is a quote from X. This is a quote from X. This is a quote from X.
+This is a quote from X. This is a quote from X. This is a quote from X.
 .RE
-This is a simple paragraph. This is a simple paragraph. This is a simple paragraph.
 ```
 
-![Quote Range](figs/formatting-quotes-range.png)
+![All Indented Paragraph](figs/formatting-paragraph-all-indented.png)
 
 <!--}}}-->
+## Quote <!--{{{-->
+
+### Paragraph
+
+```roff
+.NH
+Quote Paragraph
+.QP
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.LP
+This is a regular paragraph. This is a regular paragraph. This is a regular paragraph.
+This is a regular paragraph. This is a regular paragraph. This is a regular paragraph.
+```
+
+![Quote Paragraph](figs/formatting-quote-paragraph.png)
+
+### Specific range
+
+```roff
+.NH
+Quote Range
+.QS
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+This is a quoted paragraph. This is a quoted paragraph. This is a quoted paragraph.
+.QE
+.LP
+This is a regular paragraph. This is a regular paragraph. This is a regular paragraph.
+This is a regular paragraph. This is a regular paragraph. This is a regular paragraph.
+```
+
+![Quote Range](figs/formatting-quote-range.png)
+
 <!--}}}-->
 ## Text formatting <!--{{{-->
-<!--}}}-->
 
-\vfill\newpage
+### By macro <!--{{{-->
 
-## Macros <!--{{{-->
-
-We can define a macro to stop repeating ourselves and save time,
-kinda like functions in every programming language
-and exactly like macros in `C` language.
+#### Italic
 
 ```roff
-.de MacroName
-\" Body
-..
+.I
+This is Italic text.
 ```
 
-And now we can use them just like other macros:
+#### Bold
 
 ```roff
-.MacroName
-\" body
+.B
+This is Bold text.
 ```
 
-### Some useful macros <!--{{{-->
-
-#### bullet list:
+#### Bold-Italic
 
 ```roff
-.de bl
-.IP
-\(bu
-..
-\" usage
-.bl
-Test item one
-.bl
-Test item two
+.BI
+This is Bold-Italic text.
 ```
 
-![*bl* Bullet-list Macro](figs/macro-bullet-list.png)
-
-#### Boxed list
+#### Monospace
 
 ```roff
-.de bb
-.IP
-\[sq]
-..
-\" usage
-.bb
-TODO item one
-.bb
-TODO item two
+.CW
+This is a monospace text.
 ```
 
-![*bl* Boxed-list Macro](figs/macro-boxed-list.png)
-
-#### Boxed code block:
+Using macros like this, will change the style of the text from the calling macro,
+until next macro. And they cannot take argument. But there is an alternative way
+which will effect only on a specific strings:
 
 ```roff
-.nr ln 1
-.de cb
-.QS
-.B1
-.ft CR
-.sp 1n
-.br
-.sp 1n
-.nf
-.in +1m
-.nm +0 1 1 -5
-..
-.de /cb
-.br
-.sp 1n
-.nm
-.fi
-.ft
-.in
-.B2
-.QE
-..
-\" usage
-.cb
-#include <stdio.h>
-int main(int argc, char *argv[])
-{
-	printf("Hello world!\\n");
-	return 0;
-}
-./cb
+.I "This is a Italic text."
+.B "This is a Bold text."
+.BI "This is a Bold-Italic text."
+.CW "This is a monospace text."
 ```
 
-![*cb* Boxed-codeblock Macro](figs/macro-boxed-codeblock.png)
+![*Bold*, *Italic*, *Bold-Italic* and *Monospace* text](figs/text-macro-b-i-bi-m.png)
+
+#### Macros argument(s)
+
+First argument is the string.
+Second argument is a character to append in the *EOL*.
+And the third argument is a character to be inserted in the *BOL*.
+These characters will not be effected by the macros.
+
+```roff
+.I "Are you kidding right now" ?
+
+.CW "Inside a pair of brackets" ] [
+
+```
+
+![Arguments of Forammtings Macros](figs/text-macro-args.png)
+
+Some macros will only effect this way,
+for example `.UL` macro to have underlined text:
+
+```roff
+This line has an
+.UL "underlined"
+word.
+```
+
+![Unlerline Macro](figs/text-macro-ul.png)
 
 <!--}}}-->
+### Font Type <!--{{{-->
+
+This way, we can specify the beginning and ending of the formatting.
+
+```roff
+.LP
+Testing
+
+.ft B
+This is a very and multi-line Bold text. This is kinda an environment.
+.ft P
+.ft I
+This is a very and multi-line Italic text. This is kinda an environment.
+.ft P
+.ft BI
+This is a very and multi-line Bold-Italic text. This is kinda an environment.
+.ft P
+.ft CW
+This is a very and multi-line Monospace text. This is kinda an environment.
+.ft P
+Testing Testing Testing Testing Testing Testing Testing Testing Testing.
+```
+
+![Format-Text](figs/text-format-text.png)
+
 <!--}}}-->
+
+### In-line <!--{{{-->
+
+
+<!--}}}-->
+<!--}}}-->
+
