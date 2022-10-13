@@ -48,7 +48,7 @@ The macros should be called at the beginning of a line.
 
 ## Title <!--{{{-->
 
-Every document (in general, not only in groff) at least needs a *title* and *author*:
+Every document (in general, not in groff) at least needs a *title* and *author*:
 
 ```roff
 .TL
