@@ -84,29 +84,6 @@ This is an abstraction
 ```
 
 <!--}}}-->
-## Page styling <!--{{{-->
-
-We can have page *footer* and *header*:
-
-```roff
-.ds RH Top right
-.ds CH Top middle \" reserved for page number
-.ds LH Top left
-.ds RF Buttom right
-.ds CF Buttom middle \" reserved for current date (.DA)
-.ds LF Buttom left
-```
-
-![Page Headers](figs/page-headers.png)
-
-![Page Footers](figs/page-footers.png)
-
-Change font size:
-
-```roff
-.nr PS 18
-```
-<!--}}}-->
 ## Headings <!--{{{-->
 
 - Ordered / Numbered
@@ -344,10 +321,133 @@ Testing Testing Testing Testing Testing Testing Testing Testing Testing.
 ![Format-Text](figs/text-format-text.png)
 
 <!--}}}-->
+### In-line formatting <!--{{{-->
 
-### In-line <!--{{{-->
+```roff
+.NH
+In-line Text formatting
+.LP
+This line has an \f[I]italic\f[] word.
+.LP
+This line has an \f[B]Bold\f[] word.
+.LP
+This line has an \f[BI]Bold-italic\f[] word.
+.LP
+This line has an \f[CW]monospaced\f[] word.
+```
+
+![In-line Text formatting](figs/text-format-inline.png)
+
+<!--}}}-->
+<!--}}}-->
+## Text size <!--{{{-->
+
+### Global <!--{{{-->
+
+```roff
+.nr PS 18
+```
+
+<!--}}}-->
+### Until Next Macro <!--{{{-->
+
+#### Larger
+
+```roff
+.LP
+Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text
+.LP
+.LG
+Simple Larger Text Simple Larger Text Simple Larger Text Simple Larger Text
+.LP
+Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text
+```
+
+![Larger size until the next macro](figs/text-size-large-until-macro.png)
+
+#### Smaller
+
+```roff
+.LP
+Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text
+.LP
+.SM
+Simple Smaller Text Simple Smaller Text Simple Smaller Text Simple Smaller Text
+.LP
+Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text Simple Text
+```
+
+![Smaller size until the next macro](figs/text-size-small-until-macro.png)
 
 
 <!--}}}-->
 <!--}}}-->
+## Page styling <!--{{{-->
 
+### Footer and Header <!--{{{-->
+
+```roff
+.ds RH Top right
+.ds CH -%- \" reserved for page number
+.ds LH Top left
+.ds RF Buttom right
+.ds CF \*(DY \" reserved for current date
+.ds LF Buttom left
+```
+
+![Page Headers](figs/page-headers.png)
+
+![Page Footers](figs/page-footers.png)
+
+<!--}}}-->
+### Page Break <!--{{{-->
+
+```roff
+.bp
+.NH
+Heading
+.LP
+Simple paragraph in a new page
+```
+
+![Breaking Page](figs/page-break.png)
+
+<!--}}}-->
+### Separator <!--{{{-->
+
+#### Vertical <!--{{{-->
+
+```roff
+.LP
+Simple test Simple test Simple test Simple test Simple test Simple test Simple test
+.sp 5
+.LP
+Simple test Simple test Simple test Simple test Simple test Simple test Simple test
+```
+
+![Vertical Space](figs/page-vspace.png)
+
+<!--}}}-->
+#### Horizontal <!--{{{-->
+
+```roff
+.
+```
+
+<!--}}}-->
+<!--}}}-->
+<!--}}}-->
+## Table of Contents 
+
+```roff
+.XS 1
+Introduction
+.XA 2
+A Brief History of the Universe
+.XA 729
+Details of Galactic Formation
+.XE
+.TC
+```
+
+![Table of Contents](figs/toc.png)

@@ -11,7 +11,7 @@ BANDW = $(TITLE) --defaults $(THEME)/bw.yaml
 
 all:
 	$(CC) $(BANDW) $(NAME).md -o $(NAME)-bw.pdf
-	$(CC) $(COLOR) $(NAME).md -o $(NAME).pdf
+	#$(CC) $(COLOR) $(NAME).md -o $(NAME).pdf
 
 clean:
 	make
